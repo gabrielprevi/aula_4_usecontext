@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import TelaFormulario from './src/telas/TelaFormulario'
+import TelaLista from './src/telas/TelaLista'
+import { Icon, Text } from "@rneui/base"
+import { Button } from "react-native"
 
-export default function App() {
+
+const Stack = createNativeStackNavigator();
+
+
+  export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    
+<NavigationContainer>
+  <Stack.Navigator
+    initialRouteName="TelaList"
+    screenOptions={{
+      headerStyle:{
+        backgroundColor:'green'
+      }, headerTintColor: 'white'
+    }}
+>
+    <Stack.Screen
+    name= 'Tela list'
+    component={TelaLista}
+    options={({navigaion})=>{
+      return{
+        title:'TELA LISTAGEM',
+        headerRight:()=>(
+          <Button
+          type='clear'
+          icon={<Icon name= 'add' color='white' size={30}/>}
+          onPress={()=>navigaion.navigate('TelaForm')}
+          />
+        )
+      }
+    }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  }
+    />
+  <Stack.Screen
+    name="TelaForm"
+    component={TelaFormulario}
+    options={{title:'TELA FORMULARIO'}}
+  />
+  </Stack.Navigator>
+</NavigationContainer>      
+  );}
